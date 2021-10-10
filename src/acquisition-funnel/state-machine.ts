@@ -1,45 +1,31 @@
 import { Machine } from "xstate";
+import {
+  SELECT_ACTIVITY,
+  SUBMIT_ATTENDEE,
+  ADD_ATTENDEE,
+  ADD_INFO,
+  SUBMIT_ADDITIONNAL_INFORMATION,
+} from "./types";
 
-type ESCAPE_GAME = "escape-game";
-type BOWLING = "bowling";
-
-interface Member {
-  name: string;
-  surname: string;
-}
-
-interface FunnelData {
-  activity?: ESCAPE_GAME | BOWLING;
-  members: Member[];
-  additional_information?: string;
-  payment?: number;
-}
-
-export const stateMachine = Machine<FunnelData>({
+export const stateMachine = Machine({
   id: "funnel-state-machine",
   initial: "activity",
-  context: {
-    activity: undefined,
-    members: [],
-    additional_information: undefined,
-    payment: undefined,
-  },
   states: {
     activity: {
       on: {
-        NEXT: "register_participant",
+        [SELECT_ACTIVITY]: "register_attendee",
       },
     },
-    register_participant: {
+    register_attendee: {
       on: {
-        ADD_PARTICIPANT: "register_participant",
-        ADD_INFO: "additional_information",
-        NEXT: "payment",
+        [ADD_ATTENDEE]: "register_attendee",
+        [ADD_INFO]: "additional_information",
+        [SUBMIT_ATTENDEE]: "payment",
       },
     },
     additional_information: {
       on: {
-        NEXT: "payment",
+        [SUBMIT_ADDITIONNAL_INFORMATION]: "payment",
       },
     },
     payment: {
