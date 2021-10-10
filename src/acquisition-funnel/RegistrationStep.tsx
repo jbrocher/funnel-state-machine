@@ -14,7 +14,7 @@ const RegistrationStep: React.FunctionComponent<RegistrationProps> = ({
 
   return (
     <div>
-      <h2>Register participant number {counter}</h2>
+      <h2>Register attendee number {counter}</h2>
       <button
         onClick={() => {
           setCounter((counter) => counter + 1);
